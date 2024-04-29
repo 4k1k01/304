@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prodej - Potvrzení objednávky</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="container mt-5">
+    <h1>Potvrzení objednávky</h1>
+    <h2>Detaily objednávky:</h2>
+    <ul>
+      {% for order_num, order_info in orders.items() %}
+      <li>
+        <p>{{ order_info.item_name }} x {{ order_info.quantity }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+    <!-- Extract total_price directly with Jinja2 -->
+    <script>
+      const total_price = {{ total_price }};
+    </script>
+    <h2>Celkem: <span id="total_price">{{ total_price }}</span></h2>
+    <label class="mt-2" for="price">Hotovost:</label>
+    <br />
+    <input
+      type="number"
+      class="mt-2 form-control"
+      id="price"
+      name="price"
+      step="1"
+      min="0"
+      required
+      oninput="updateChange()"
+    />
+    <h5 class="mt-3">Vrátit: <span id="change">0</span></h5>
+    <form method="post">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        name="choice"
+        value="option1"
+      >
+        Uložit
+      </button>
+      <button
+        type="submit"
+        class="btn btn-danger"
+        name="choice"
+        value="option2"
+      >
+        Smazat
+      </button>
+    </form>
+    <script>
+      // Function to update change
+      function updateChange() {
+        const total = parseFloat(
+          document.getElementById("total_price").textContent
+        );
+        const paid = parseFloat(document.getElementById("price").value);
+        const change = paid - total;
+        document.getElementById("change").textContent = change.toFixed(2);
+      }
+
+      // Update change on page load
+      window.onload = function () {
+        updateChange();
+      };
+    </script>
+  </body>
+</html>
