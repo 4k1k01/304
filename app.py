@@ -147,5 +147,26 @@ def statistics():
     return render_template('statistics.html')
 
 
+def get_orders():
+    # Replace 'your_database.db' with your database file path
+    c.execute("SELECT * FROM orders")
+    orders = c.fetchall()
+    return orders
+
+
+@app.route('/orders', methods=['GET'])
+def orders():
+    orders = get_orders()
+    orders_list = []
+    for order in orders:
+        order_data = {
+            'id': order[0],
+            'whole_order': order[1],
+            'total': order[2]
+        }
+        orders_list.append(order_data)
+    return jsonify({'orders': orders_list})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
