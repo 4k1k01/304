@@ -61,6 +61,10 @@ def generate_statistics():
 def removedb():
     c.execute("DROP TABLE IF EXISTS items")
     c.execute("DROP TABLE IF EXISTS orders")
+    c.execute('''CREATE TABLE IF NOT EXISTS items
+             (id INTEGER PRIMARY KEY, name TEXT, price FLOAT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS orders
+             (id INTEGER PRIMARY KEY, whole_order TEXT, total FLOAT)''')
     conn.commit()
     return redirect('/')
 
