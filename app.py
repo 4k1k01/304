@@ -24,7 +24,6 @@ def parse_order(query):
 
 
 def generate_statistics():
-    c = conn.cursor()
     c.execute("SELECT * FROM orders")
     orders = c.fetchall()
 
@@ -49,7 +48,6 @@ def generate_statistics():
         total_amount_made += order[2]
 
     print(total_amount_made)
-    conn.close()
 
     return {
         'total_orders': total_orders,
