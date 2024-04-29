@@ -5,7 +5,7 @@ import json
 
 app = Flask(__name__)
 
-conn = sqlite3.connect('slqlite3.db', check_same_thread=False)
+conn = sqlite3.connect('sqlite3.db', check_same_thread=False)
 c = conn.cursor()
 c.execute('''CREATE TABLE IF NOT EXISTS items
              (id INTEGER PRIMARY KEY, name TEXT, price FLOAT)''')
@@ -55,6 +55,14 @@ def generate_statistics():
         'total_amount_made': total_amount_made,
         'item_counts': item_counts
     }
+
+
+@app.route('/removedb')
+def removedb():
+    c.execute("DROP TABLE IF EXISTS items")
+    c.execute("DROP TABLE IF EXISTS orders")
+    conn.commit()
+    return redirect('/')
 
 
 @app.route('/add', methods=['GET', 'POST'])
